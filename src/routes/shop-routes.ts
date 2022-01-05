@@ -62,64 +62,34 @@ shopRoutes.delete("/api/shop/:id", function(req, res){
     res.json("");
 });
 
-shopRoutes.get("/shop-list", function (req, res) {
-	let minRatingParam: string = req.query.minRating as string;
 
-	if (minRatingParam) {
-		let minRating: number = Number.parseFloat(minRatingParam);
-
-		let filteredShops: Shop[] = shops.filter(
-			(shop) => shop.rating >= minRating
-		);
-
-		res.render("shops", { filteredShops });
-	} else {
-		res.render("shops", { shops });
-	}
-});
-
-shopRoutes.get("/shop-details/:id", function (req, res) {
-	let idNum: number = parseInt(req.params.id);
-	let match = shops.find((shop) => shop.id === idNum);
-	if (match) {
-		res.render("shop-details", { match });
-	} else {
-		res.status(404).render("404id", { idNum });
-	}
-});
-
-shopRoutes.get("/shop-search-form", function (req, res) {
-	res.render("search");
-});
-
-
-// shopRoutes.get("/api/shop/:id", function(req, res){
-//     // req.params.id shops[i].id
-//     //search shop array
-//     for(let i=0; i<shops.length; i++){
-//         let inputId: number = Number.parseInt(req.params.id);
-//         //find shop by id property
-//         if(shops[i].id === inputId) {
-//             //return the json response with the shop object
-//             res.json(shops[i]);
-//             break;
-//         }
-//     }
-//     res.status(404);
-//     res.send({"error": "Shop not found"});
+shopRoutes.get("/api/shop/:id", function(req, res){
+    // req.params.id shops[i].id
+    //search shop array
+    for(let i=0; i<shops.length; i++){
+        let inputId: number = Number.parseInt(req.params.id);
+        //find shop by id property
+        if(shops[i].id === inputId) {
+            //return the json response with the shop object
+            res.json(shops[i]);
+            break;
+        }
+    }
+    res.status(404);
+    res.send({"error": "Shop not found"});
     
-// });
+});
 
 
-// shopRoutes.get("/api/shop-details/:id", function (req, res) {
-// 	let id: number = parseInt(req.params.id);
-// 	let match = shops.find((shop) => shop.id === id);
-// 	if (match) {
-// 		res.render("shop-details", {match});
-// 	} else {
-// 		res.status(404).render("404", {id});
-// 	}
-// });
+shopRoutes.get("/api/shop-details/:id", function (req, res) {
+	let id: number = parseInt(req.params.id);
+	let match = shops.find((shop) => shop.id === id);
+	if (match) {
+		res.render("shop-details", {match});
+	} else {
+		res.status(404).render("404", {id});
+	}
+});
 
 export default shopRoutes;
 module.exports.shops = shops;
