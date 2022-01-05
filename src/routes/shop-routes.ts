@@ -63,7 +63,7 @@ shopRoutes.delete("/api/shop/:id", function(req, res){
 });
 
 
-shopRoutes.get("/api/shop/:id", function(req, res){
+shopRoutes.get("/:id", function(req, res){
     // req.params.id shops[i].id
     //search shop array
     for(let i=0; i<shops.length; i++){
@@ -82,14 +82,13 @@ shopRoutes.get("/api/shop/:id", function(req, res){
 
 
 shopRoutes.get("/api/shop-details/:id", function (req, res) {
-	let id: number = parseInt(req.params.id);
-	let match = shops.find((shop) => shop.id === id);
+	let idNumber: number = parseInt(req.params.id);
+	let match = shops.find((shop) => shop.id === idNumber);
 	if (match) {
-		res.render("shop-details", {match});
+		res.json(match);
 	} else {
-		res.status(404).render("404", {id});
+		res.status(404).render("404", {idNumber});
 	}
 });
 
 export default shopRoutes;
-module.exports.shops = shops;
