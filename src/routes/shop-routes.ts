@@ -54,14 +54,6 @@ shopRoutes.post("/api/shop", function(req, res){
     res.json(newShop);
 });
 
-shopRoutes.delete("/api/shops/:id", function (req, res) {
-	let inputId: number = Number.parseInt(req.params.id);
-	let shopIndex: number = shops.findIndex((shop) => shop.id === inputId);
-	shops.splice(shopIndex, 1);
-	res.status(204);
-	res.json("");
-});
-
 shopRoutes.get("/api/shops/:id", function (req, res) {
 	let idNum: number = parseInt(req.params.id);
 	let match = shops.find((shop) => shop.id === idNum);
@@ -77,11 +69,20 @@ shopRoutes.get("/api/shop-details/:id", function (req, res) {
 	let idNumber: number = parseInt(req.params.id);
 	let match = shops.find((shop) => shop.id === idNumber);
 	if (match) {
-		res.json(match);
+		res.render("shop-details", {shops});
 	} else {
 		res.status(404).render("404", {idNumber});
 	}
 });
+
+shopRoutes.delete("/api/shops/:id", function (req, res) {
+	let inputId: number = Number.parseInt(req.params.id);
+	let shopIndex: number = shops.findIndex((shop) => shop.id === inputId);
+	shops.splice(shopIndex, 1);
+	res.status(204);
+	res.json("");
+});
+
 
 shopRoutes.get("/add-shop", function (req, res) {
     res.render("add-shop");
@@ -97,6 +98,15 @@ shopRoutes.post("/added-shop", function (req, res){
     shops.push(newShop);
     res.render("added-shop", {newShop})
 })
+
+
+shopRoutes.get("/search", function (req, res) {
+    res.json('Keyword: ${req.query.keyword} || Page: ${req.query.page}')
+
+})
+
+
+
 export default shopRoutes;
 // const items: Item[] = [
 //     { id: 1, product: "Apple", price: 0.99, quantity: 10 },
